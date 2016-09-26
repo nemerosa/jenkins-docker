@@ -15,7 +15,7 @@ node('docker') {
             sleep 30s
             # Connecting to the database and creating a table
             export PGPASSWORD=ontrack
-            psql -h localhost -p ${DB_PORT} -U ontrack ontrack << EOF
+            psql -h ${env.DOCKER_HOST} -p ${DB_PORT} -U ontrack ontrack << EOF
 create table test ();
 EOF
             '''
