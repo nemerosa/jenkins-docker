@@ -11,6 +11,11 @@ node('docker') {
             # Gets the port of the postgres container
             DB_PORT=`docker-compose --project-name test --file docker-compose.yml port db 5432 | awk -F ':' '{print $NF}'`
             echo "Postgres port = ${DB_PORT}"
+            # Connecting to the database and creating a table
+            export PGPASSWORD=ontrack
+            psql -h localhost -U ontrack ontrack << EOF
+create table test ();
+EOF
             '''
       } finally {
          // Destroys the database

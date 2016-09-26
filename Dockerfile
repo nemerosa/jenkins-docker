@@ -1,6 +1,11 @@
 # Base
 FROM java:openjdk-8u66-jdk
 
+# Installing psql client
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    && rm -rf /var/lib/apt/lists/*
+
 # Installing Docker
 RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.11.0.tgz -O docker.tgz
 RUN tar -xvzf docker.tgz
