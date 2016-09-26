@@ -1,5 +1,5 @@
 # Base
-FROM ubuntu
+FROM java:openjdk-8u66-jdk
 
 # Installing Docker
 RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.11.0.tgz -O docker.tgz
