@@ -3,14 +3,7 @@ node('docker') {
 
    stage 'Build'
 
-   sh '''\
-      HOSTIP=`ip -4 addr show docker0 | grep 'inet ' | awk '{print $2}' | awk -F '/' '{print $1}'`
-      echo HOSTIP=${HOSTIP}
-      echo HOSTIP=${HOSTIP} > host.properties
-      '''
-
-   def props = readProperties(file: 'host.properties')
-   String hostIP = props.HOSTIP
+   String hostIP = InetAddress.localHost.hostAddress
    echo "Host IP = ${hostIP}"
 
    docker.build('nemerosa/jenkins-docker').inside("--volume=/var/run/docker.sock:/var/run/docker.sock --add-host dockerhost:${hostIP}") {
