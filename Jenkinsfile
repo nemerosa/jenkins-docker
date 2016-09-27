@@ -4,12 +4,13 @@ node('docker') {
    stage 'Build'
 
    sh '''\
-      HOSTIP=`ip -4 addr show scope global dev eth0 | grep inet | awk '{print \$2}' | cut -d / -f 1`
+      HOSTIP=`ip -4 addr show scope global dev eth0 | grep inet | awk '{print $2}' | cut -d / -f 1`
       echo HOSTIP=${HOSTIP}
       echo HOSTIP=${HOSTIP} > host.properties
       '''
 
    String hostIP = readProperties('host.properties').getProperty('HOSTIP')
+   echo "Host IP = ${hostIP}"
 
    docker.build('nemerosa/jenkins-docker').inside("--volume=/var/run/docker.sock:/var/run/docker.sock --add-host dockerhost:${hostIP}") {
       // Mounts a temporary database
