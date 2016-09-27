@@ -9,7 +9,8 @@ node('docker') {
       echo HOSTIP=${HOSTIP} > host.properties
       '''
 
-   String hostIP = readProperties('host.properties').getProperty('HOSTIP')
+   def props = readProperties(file: 'host.properties')
+   String hostIP = props.getProperty('HOSTIP')
    echo "Host IP = ${hostIP}"
 
    docker.build('nemerosa/jenkins-docker').inside("--volume=/var/run/docker.sock:/var/run/docker.sock --add-host dockerhost:${hostIP}") {
