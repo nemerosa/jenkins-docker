@@ -12,7 +12,7 @@ node('docker') {
    String hostIP = readProperties('host.properties').getProperty('HOSTIP')
    echo "Host IP = ${hostIP}"
 
-   docker.build('nemerosa/jenkins-docker').inside("--volume=/var/run/docker.sock:/var/run/docker.sock --add-host dockerhost:${hostIP}") {
+   docker.build('nemerosa/jenkins-docker').inside("--net host --volume=/var/run/docker.sock:/var/run/docker.sock --add-host dockerhost:${hostIP}") {
       // Mounts a temporary database
       sh 'docker-compose --project-name test --file docker-compose.yml up -d'
       try {
